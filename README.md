@@ -28,21 +28,16 @@ Things you may want to cover:
 | ------------------- | ------ | ------------------------- |
 | nickname            | string | null: false               |
 | email               | string | null: false, unique: true |
-| encrypted\_password | string | null: false               |
-| last\_name          | string | null: false               |
-| first\_name         | string | null: false               |
-| last\_name\_kana    | string | null: false               |
-| first\_name\_kana   | string | null: false               |
+| encrypted_password | string | null: false               |
+| last_name          | string | null: false               |
+| first_name         | string | null: false               |
+| last_name_kana    | string | null: false               |
+| first_name_kana   | string | null: false               |
 | birthday            | date   | null: false               |
 
 Association
 has_many :items
-has_many :orders
-has_many :comments
-has_many :favorites
-has_many :reports
 has_many :purchases
-has_one :destination
 
 
 ## itemsテーブル
@@ -50,72 +45,40 @@ has_one :destination
 | ------------------ | ---------- | ------------------------------- |
 | name               | string     | null: false                     |
 | text               | text       | null: false                     |
-| category\_id       | integer    | null: false                     |
-| condition\_id      | integer    | null: false                     |
-| delivery\_fee\_id  | integer    | null: false                     |
-| prefecture\_id     | integer    | null: false                     |
-| delivery\_days\_id | integer    | null: false                     |
+| category_id       | integer    | null: false                     |
+| condition_id      | integer    | null: false                     |
+| delivery_fee_id  | integer    | null: false                     |
+| prefecture_id     | integer    | null: false                     |
+| delivery_days_id | integer    | null: false                     |
 | price              | integer    | null: false                     |
-| user               | references | null: false, foreign\_key: true |
+| user               | references | null: false, foreign_key: true |
 
 Association
 belongs_to :user
-has_one :order
+has_one :purchase
+
 
 ## purchasesテーブル
 | Column | Type       | Options                         |
 | ------ | ---------- | ------------------------------- |
-| user   | references | null: false, foreign\_key: true |
-| item   | references | null: false, foreign\_key: true |
+| user   | references | null: false, foreign_key: true |
+| item   | references | null: false, foreign_key: true |
 
 Association
 belongs_to :user
 belongs_to :item
-has_one :address
+has_one :destination
 
 ## destinationsテーブル
 | Column         | Type       | Options                         |
 | -------------- | ---------- | ------------------------------- |
-| postal\_code   | string     | null: false                     |
-| prefecture\_id | integer    | null: false                     |
+| postal_code   | string     | null: false                     |
+| prefecture_id | integer    | null: false                     |
 | city           | string     | null: false                     |
 | address        | string     | null: false                     |
 | building       | string     |                                 |
-| phone\_number  | string     | null: false                     |
-| order          | references | null: false, foreign\_key: true |
+| phone_number  | string     | null: false                     |
+| order          | references | null: false, foreign_key: true |
 
 Association
-belongs_to :order
-
-## commentsテーブル
-| Column | Type       | Options                         |
-| ------ | ---------- | ------------------------------- |
-| comment   | text     | null: false                     |
-| user   | references | null: false, foreign\_key: true |
-| item   | references | null: false, foreign\_key: true |
-
-Association
-belongs_to :user
-belongs_to :item
-
-
-## favoritesテーブル
-| Column | Type       | Options                         |
-| ------ | ---------- | ------------------------------- |
-| user   | references | null: false, foreign\_key: true |
-| item   | references | null: false, foreign\_key: true |
-
-Association
-belongs_to :user
-belongs_to :item
-
-
-## reportsテーブル
-| Column | Type       | Options                         |
-| ------ | ---------- | ------------------------------- |
-| user   | references | null: false, foreign\_key: true |
-| item   | references | null: false, foreign\_key: true |
-
-Association
-belongs_to :user
-belongs_to :item
+has_one :purchase
