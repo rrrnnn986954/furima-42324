@@ -44,12 +44,12 @@ has_many :purchases
 | Column             | Type       | Options                         |
 | ------------------ | ---------- | ------------------------------- |
 | name               | string     | null: false                     |
-| text               | text       | null: false                     |
+| email               | text       | null: false                     |
 | category_id       | integer    | null: false                     |
 | condition_id      | integer    | null: false                     |
 | delivery_fee_id  | integer    | null: false                     |
 | prefecture_id     | integer    | null: false                     |
-| delivery_days_id | integer    | null: false                     |
+| delivery_day_id | integer    | null: false                     |
 | price              | integer    | null: false                     |
 | user               | references | null: false, foreign_key: true |
 
@@ -81,4 +81,4 @@ has_one :destination
 | order          | references | null: false, foreign_key: true |
 
 Association
-has_one :purchase
+belongs_to :purchase
