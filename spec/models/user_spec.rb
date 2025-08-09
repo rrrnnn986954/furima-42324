@@ -73,6 +73,36 @@ RSpec.describe User, type: :model do
         expect(@user.errors[:last_name]).to include('は全角で入力してください')
       end
 
+      it 'first_nameが空では登録できない' do
+        @user.first_name = ''
+        @user.valid?
+        expect(@user.errors[:first_name]).to include("can't be blank")
+      end
+
+      it 'first_nameが全角でないと登録できない' do
+        @user.first_name = 'taro'
+        @user.valid?
+        expect(@user.errors[:first_name]).to include('は全角で入力してください')
+      end
+
+      it 'last_name_kanaが空では登録できない' do
+        @user.last_name_kana = ''
+        @user.valid?
+        expect(@user.errors[:last_name_kana]).to include("can't be blank")
+      end
+
+      it 'last_name_kanaがカタカナでないと登録できない（ひらがな）' do
+        @user.last_name_kana = 'たなか'
+        @user.valid?
+        expect(@user.errors[:last_name_kana]).to include('は全角カタカナで入力してください')
+      end
+
+      it 'last_name_kanaがカタカナでないと登録できない（漢字）' do
+        @user.last_name_kana = '田中'
+        @user.valid?
+        expect(@user.errors[:last_name_kana]).to include('は全角カタカナで入力してください')
+      end
+
       it 'first_name_kanaが空では登録できない' do
         @user.first_name_kana = ''
         @user.valid?
