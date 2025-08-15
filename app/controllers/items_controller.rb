@@ -11,7 +11,6 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new(item_params)
-    @item.user = current_user
     if @item.save
       redirect_to root_path, notice: '商品を出品しました'
     else
@@ -24,6 +23,6 @@ class ItemsController < ApplicationController
   def item_params
     params.require(:item).permit(:item_name, :item_explanation, :category_id, :situation_id,
                                  :shipping_charge_id, :shipping_area_id, :delivery_time_id,
-                                 :amount, :image)
+                                 :amount, :image).merge(user_id: current_user.id)
   end
 end
