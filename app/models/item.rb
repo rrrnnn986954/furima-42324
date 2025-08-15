@@ -13,11 +13,11 @@ class Item < ApplicationRecord
   validates :item_name, presence: { message: 'を入力してください' }
   validates :item_explanation, presence: { message: 'を入力してください' }
 
-  validates :category_id, numericality: { other_than: 0, message: 'を選択してください' }
-  validates :situation_id, numericality: { other_than: 0, message: 'を選択してください' }
-  validates :shipping_charge_id, numericality: { other_than: 0, message: 'を選択してください' }
-  validates :shipping_area_id, numericality: { other_than: 0, message: 'を選択してください' }
-  validates :delivery_time_id, numericality: { other_than: 0, message: 'を選択してください' }
+  validates :category_id, numericality: { other_than: 1, message: 'を選択してください' }
+  validates :situation_id, numericality: { other_than: 1, message: 'を選択してください' }
+  validates :shipping_charge_id, numericality: { other_than: 1, message: 'を選択してください' }
+  validates :shipping_area_id, numericality: { other_than: 1, message: 'を選択してください' }
+  validates :delivery_time_id, numericality: { other_than: 1, message: 'を選択してください' }
 
   validates :amount, presence: { message: 'を入力してください' },
                      numericality: { only_integer: true, message: 'は数値で入力してください' },

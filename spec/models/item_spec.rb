@@ -13,6 +13,12 @@ RSpec.describe Item, type: :model do
     end
 
     context '出品できないとき' do
+      it 'userが紐づいていない場合は出品できない' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include('User must exist')
+      end
+
       it '商品名が空では出品できない' do
         @item.item_name = ''
         @item.valid?
@@ -26,31 +32,61 @@ RSpec.describe Item, type: :model do
       end
 
       it 'カテゴリーが未選択では出品できない' do
-        @item.category_id = 0
+        @item.category_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Category を選択してください')
+      end
+
+      it 'category_idが未入力(nil)では出品できない' do
+        @item.category_id = nil
         @item.valid?
         expect(@item.errors.full_messages).to include('Category を選択してください')
       end
 
       it '商品の状態が未選択では出品できない' do
-        @item.situation_id = 0
+        @item.situation_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Situation を選択してください')
+      end
+
+      it 'situation_idが未入力(nil)では出品できない' do
+        @item.situation_id = nil
         @item.valid?
         expect(@item.errors.full_messages).to include('Situation を選択してください')
       end
 
       it '配送料の負担が未選択では出品できない' do
-        @item.shipping_charge_id = 0
+        @item.shipping_charge_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Shipping charge を選択してください')
+      end
+
+      it 'shipping_charge_idが未入力(nil)では出品できない' do
+        @item.shipping_charge_id = nil
         @item.valid?
         expect(@item.errors.full_messages).to include('Shipping charge を選択してください')
       end
 
       it '発送元の地域が未選択では出品できない' do
-        @item.shipping_area_id = 0
+        @item.shipping_area_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Shipping area を選択してください')
+      end
+
+      it 'shipping_area_idが未入力(nil)では出品できない' do
+        @item.shipping_area_id = nil
         @item.valid?
         expect(@item.errors.full_messages).to include('Shipping area を選択してください')
       end
 
       it '発送までの日数が未選択では出品できない' do
-        @item.delivery_time_id = 0
+        @item.delivery_time_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Delivery time を選択してください')
+      end
+
+      it 'delivery_time_idが未入力(nil)では出品できない' do
+        @item.delivery_time_id = nil
         @item.valid?
         expect(@item.errors.full_messages).to include('Delivery time を選択してください')
       end
