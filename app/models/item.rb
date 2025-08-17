@@ -24,4 +24,10 @@ class Item < ApplicationRecord
                      inclusion: { in: 300..9_999_999, message: 'は300以上9999999以下の値にしてください' }
 
   validates :image, presence: { message: 'を選択してください' }
+
+  def sold_out?
+    # ここでは例えば売上済みかどうかを判定
+    # 今は単純にfalseでOK
+    false
+  end
 end
