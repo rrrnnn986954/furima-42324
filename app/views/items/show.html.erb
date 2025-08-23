@@ -10,16 +10,16 @@
 
     <div class="item-price-box">
       <span class="item-price"><%= @item.amount %>円</span>
-      <span class="item-postage">配送料負担</span>
+      <span class="item-postage"><%= @item.shipping_charge.name %></span>
     </div>
 
     <%# ボタン表示（最小実装） %>
     <% if user_signed_in? %>
       <% if current_user == @item.user %>
         <%# 自分の出品物 → 編集・削除ボタン %>
-        <%= link_to "商品の編集", edit_item_path(@item), class: "item-red-btn" %>
+        <%= link_to "商品の編集", "#", class: "item-red-btn" %>
         <p class="or-text">or</p>
-        <%= link_to "削除", item_path(@item), data: { turbo_method: :delete }, class:"item-destroy" %>
+        <%= link_to "削除", "#", "#", class:"item-destroy" %>
       <% else %>
         <%# 他人の出品物 → 購入ボタン %>
         <%= link_to "購入画面に進む", "#", class:"item-red-btn" %>
@@ -27,8 +27,7 @@
     <% end %>
 
     <div class="item-explain-box">
-      <span>商品説明</span>
-      <p><%= @item.item_explanation %></p>
+      <span><%= @item.item_explanation %></span>
     </div>
 
     <table class="detail-table">
@@ -59,8 +58,44 @@
         </tr>
       </tbody>
     </table>
-
+    <div class="option">
+      <div class="favorite-btn">
+        <%= image_tag "star.png" ,class:"favorite-star-icon" ,width:"20",height:"20"%>
+        <span>お気に入り 0</span>
+      </div>
+      <div class="report-btn">
+        <%= image_tag "flag.png" ,class:"report-flag-icon" ,width:"20",height:"20"%>
+        <span>不適切な商品の通報</span>
+      </div>
+    </div>
   </div>
+  <%# /商品の概要 %>
+
+  <div class="comment-box">
+    <form>
+      <textarea class="comment-text"></textarea>
+      <p class="comment-warn">
+        相手のことを考え丁寧なコメントを心がけましょう。
+        <br>
+        不快な言葉遣いなどは利用制限や退会処分となることがあります。
+      </p>
+      <button type="submit" class="comment-btn">
+        <%= image_tag "comment.png" ,class:"comment-flag-icon" ,width:"20",height:"25"%>
+        <span>コメントする<span>
+      </button>
+    </form>
+  </div>
+  <div class="links">
+    <a href="#" class="change-item-btn">
+      ＜ 前の商品
+    </a>
+    <a href="#" class="change-item-btn">
+      後ろの商品 ＞
+    </a>
+  </div>
+  <%# 詳細ページで表示されている商品のカテゴリー名を表示しましょう %>
+  <a href="#" class="another-item"><%= "商品のカテゴリー名" %>をもっと見る</a>
+  <%# //詳細ページで表示されている商品のカテゴリー名を表示しましょう %>
 </div>
 
 <%= render "shared/footer" %>
