@@ -17,7 +17,7 @@
     <% if user_signed_in? %>
       <% if current_user == @item.user %>
         <%# 自分の出品物 → 編集・削除ボタン %>
-        <%= link_to "商品の編集", "#", class: "item-red-btn" %>
+        <%= link_to "商品の編集", edit_item_path(@item), class: "item-red-btn" %>
         <p class="or-text">or</p>
         <%= link_to "削除", "#", class:"item-destroy" %>
       <% else %>
@@ -81,7 +81,7 @@
       </p>
       <button type="submit" class="comment-btn">
         <%= image_tag "comment.png" ,class:"comment-flag-icon" ,width:"20",height:"25"%>
-        <span>コメントする<span>
+        <span>コメントする</span>
       </button>
     </form>
   </div>
