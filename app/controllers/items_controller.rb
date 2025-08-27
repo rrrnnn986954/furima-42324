@@ -34,11 +34,6 @@ class ItemsController < ApplicationController
     end
   end
 
-  def destroy
-    @item.destroy
-    redirect_to root_path, notice: '商品を削除しました'
-  end
-
   private
 
   def set_item
