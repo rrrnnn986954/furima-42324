@@ -26,9 +26,9 @@ class OrdersController < ApplicationController
 
   # 売り切れガード
   def redirect_if_sold_out
-    return unless @item.sold_out?
+    return unless @item.sold_out? || current_user == @item.user
 
-    redirect_to item_path(@item), alert: 'この商品はすでに売り切れています'
+    redirect_to root_path, alert: 'この商品は購入できません'
   end
 
   def order_address_params
