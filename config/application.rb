@@ -26,3 +26,5 @@ module Furima42324
     config.active_storage.variant_processor = :mini_magick
   end
 end
+
+Rails.autoloaders.main.push_dir(Rails.root.join('app/forms'))

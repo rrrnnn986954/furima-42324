@@ -22,7 +22,7 @@
         <%= link_to "削除", item_path(@item), data: { turbo_method: :delete }, class:"item-destroy" %>
       <% else %>
         <%# 他人の出品物 → 購入ボタン %>
-        <%= link_to "購入画面に進む", orders_path(item_id: @item.id), data: { turbo: false }, class:"item-red-btn" %>
+        <%= link_to "購入画面に進む", item_orders_path(item_id: @item.id), data: { turbo: false }, class:"item-red-btn" %>
       <% end %>
     <% end %>
 
