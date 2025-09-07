@@ -9,6 +9,7 @@ class Item < ApplicationRecord
   belongs_to :delivery_time
 
   has_one_attached :image
+  has_one :order
 
   validates :item_name, presence: { message: 'を入力してください' }
   validates :item_explanation, presence: { message: 'を入力してください' }
@@ -26,8 +27,6 @@ class Item < ApplicationRecord
   validates :image, presence: { message: 'を選択してください' }
 
   def sold_out?
-    # ここでは例えば売上済みかどうかを判定
-    # 今は単純にfalseでOK
-    false
+    order.present?
   end
 end
