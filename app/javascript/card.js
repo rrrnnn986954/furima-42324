@@ -12,6 +12,7 @@ const pay = () => {
   const payjp = Payjp('pk_test_df4ed8349ca110801ba9ec82');
   const elements = payjp.elements();
 
+
   const numberElement = elements.create('cardNumber');
   const expiryElement = elements.create('cardExpiry');
   const cvcElement = elements.create('cardCvc');
@@ -22,14 +23,16 @@ const pay = () => {
 
   form.addEventListener("submit", function(e) {
     e.preventDefault();
+
     payjp.createToken(numberElement).then(function(response) {
       if (response.error) {
         alert(response.error.message);
       } else {
         const tokenInput = document.createElement('input');
         tokenInput.setAttribute('type', 'hidden');
-        tokenInput.setAttribute('name', 'payjpToken');
+        tokenInput.setAttribute('name', 'order_address[token]'); 
         tokenInput.setAttribute('value', response.id);
+
         form.appendChild(tokenInput);
         form.submit();
       }
@@ -38,3 +41,4 @@ const pay = () => {
 };
 
 document.addEventListener("turbo:load", pay);
+
