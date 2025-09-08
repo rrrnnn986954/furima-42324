@@ -14,11 +14,14 @@ class OrderAddress
     validates :token
   end
 
+  # 保存メソッド
   def save
     return false unless valid?
 
-    order = Order.create(user_id: user_id, item_id: item_id)
-    Address.create(
+    order = Order.new(user_id: user_id, item_id: item_id)
+    return false unless order.save
+
+    address = Address.new(
       order_id: order.id,
       postal_code: postal_code,
       prefecture_id: prefecture_id,
@@ -27,5 +30,8 @@ class OrderAddress
       building: building,
       phone_number: phone_number
     )
+    return false unless address.save
+
+    true
   end
 end
