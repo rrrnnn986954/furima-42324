@@ -8,16 +8,7 @@
     </h1>
 
     <%# エラーメッセージ表示 %>
-    <% if @order_address.errors.any? %>
-      <div class="error-messages">
-        <h2>入力に問題があります：</h2>
-        <ul>
-          <% @order_address.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+    <%= render "shared/error_messages", model: @order_address %>
 
     <%# 購入内容の表示 %>
     <div class='buy-item-info'>
