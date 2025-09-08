@@ -12,7 +12,12 @@ class OrderAddress
     validates :street
     validates :phone_number, format: { with: /\A\d{10,11}\z/, message: 'is invalid' }
     validates :token
+    validates :user_id
+    validates :item_id
   end
+
+  validates :user_id
+  validates :item_id
 
   def save
     return false unless valid?
@@ -27,5 +32,15 @@ class OrderAddress
       building: building,
       phone_number: phone_number
     )
+  end
+
+  private
+
+  def user_must_exist
+    errors.add(:user_id, 'must exist') unless User.exists?(id: user_id)
+  end
+
+  def item_must_exist
+    errors.add(:item_id, 'must exist') unless Item.exists?(id: item_id)
   end
 end
