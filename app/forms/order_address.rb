@@ -10,15 +10,13 @@ class OrderAddress
     validates :prefecture_id, numericality: { other_than: 1, message: "can't be blank" }
     validates :city
     validates :street
-    validates :phone_number, format: { with: /\A\d{10,11}\z/, message: 'is invalid' }
-    validates :token
+    validates :phone_number, format: { with: /\A\d{10,11}\z/, message: 'is invalid' } # ← ここが重要
     validates :user_id
     validates :item_id
+    validates :token
   end
 
-  # validates :user_id
-  # validates :item_id
-
+  # DB保存のみ
   def save
     return false unless valid?
 
@@ -32,15 +30,6 @@ class OrderAddress
       building: building,
       phone_number: phone_number
     )
-  end
-
-  private
-
-  def user_must_exist
-    errors.add(:user_id, 'must exist') unless User.exists?(id: user_id)
-  end
-
-  def item_must_exist
-    errors.add(:item_id, 'must exist') unless Item.exists?(id: item_id)
+    true
   end
 end

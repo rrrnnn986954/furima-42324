@@ -5,15 +5,24 @@ class OrdersController < ApplicationController
 
   def index
     @order_address = OrderAddress.new
-    gon.public_key = ENV['PAYJP_PUBLIC_KEY']
+    gon.public_key = ENV['PAYJP_PUBLIC_KEY'] # JSで使用
   end
 
   def create
     @order_address = OrderAddress.new(order_address_params)
 
     if @order_address.valid?
-      pay_item # Payjpで決済
+      # 決済処理はここで一度だけ
+      Payjp.api_key = ENV['PAYJP_SECRET_KEY']
+      Payjp::Charge.create(
+        amount: @item.amount,
+        card: @order_address.token,
+        currency: 'jpy'
+      )
+
+      # DB保存
       @order_address.save
+
       redirect_to root_path, notice: '購入が完了しました'
     else
       gon.public_key = ENV['PAYJP_PUBLIC_KEY']
@@ -41,14 +50,5 @@ class OrdersController < ApplicationController
     params.require(:order_address).permit(
       :postal_code, :prefecture_id, :city, :street, :building, :phone_number, :token
     ).merge(user_id: current_user.id, item_id: @item.id)
-  end
-
-  def pay_item
-    Payjp.api_key = Rails.application.credentials.dig(:payjp, :secret_key)
-    Payjp::Charge.create(
-      amount: @item.amount,
-      card: order_address_params[:token],
-      currency: 'jpy'
-    )
   end
 end

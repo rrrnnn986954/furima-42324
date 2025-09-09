@@ -92,3 +92,5 @@ gem 'pry-rails'
 gem 'gon'
 
 gem 'dotenv-rails', groups: [:development, :test]
+
+gem 'payjp'

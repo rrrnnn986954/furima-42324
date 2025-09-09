@@ -1,5 +1,11 @@
 <%= include_gon %>
-<%= render "shared/second-header"%>
+
+<!-- Payjp公開鍵をページ上部で設定 -->
+<script>
+  gon.public_key = "<%= ENV['PAYJP_PUBLIC_KEY'] %>";
+</script>
+
+<%= render "shared/second-header" %>
 
 <div class='transaction-contents'>
   <div class='transaction-main'>
@@ -7,10 +13,10 @@
       購入内容の確認
     </h1>
 
-    <%# エラーメッセージ表示 %>
+    <!-- エラーメッセージ表示 -->
     <%= render "shared/error_messages", model: @order_address %>
 
-    <%# 購入内容の表示 %>
+    <!-- 購入内容の表示 -->
     <div class='buy-item-info'>
       <%= image_tag @item.image, class: 'buy-item-img' %>
       <div class='buy-item-right-content'>
@@ -24,7 +30,7 @@
       </div>
     </div>
 
-    <%# 支払額の表示 %>
+    <!-- 支払額の表示 -->
     <div class='item-payment'>
       <h1 class='item-payment-title'>
         支払金額
@@ -35,9 +41,13 @@
     </div>
 
     <%= form_with model: @order_address, url: item_orders_path(@item), local: true, id: "charge-form" do |f| %>
-      <%# カード情報の入力（Payjpなど外部JSで対応） %>
+      <!-- hidden token -->
+      <%= f.hidden_field :token %>
+
+      <!-- カード情報入力 -->
       <div class='credit-card-form'>
         <h1 class='info-input-haedline'>クレジットカード情報入力</h1>
+
         <div class="form-group">
           <div class='form-text-wrap'>
             <label class="form-text">カード情報</label>
@@ -51,6 +61,7 @@
             <%= image_tag 'card-amex.gif', class: 'card-logo'%>
           </div>
         </div>
+
         <div class="form-group">
           <div class='form-text-wrap'>
             <label class="form-text">有効期限</label>
@@ -60,6 +71,7 @@
             <div id="expiry-form" class="input-default"></div>
           </div>
         </div>
+
         <div class="form-group">
           <div class='form-text-wrap'>
             <label class="form-text">セキュリティコード</label>
@@ -69,7 +81,7 @@
         </div>
       </div>
 
-      <%# 配送先の入力 %>
+      <!-- 配送先入力 -->
       <div class='shipping-address-form'>
         <h1 class='info-input-haedline'>配送先入力</h1>
 
@@ -123,7 +135,7 @@
       </div>
 
       <div class='buy-btn'>
-        <%= f.submit "購入" ,class:"buy-red-btn", id:"button" %>
+        <%= f.submit "購入", class:"buy-red-btn", id:"button" %>
       </div>
     <% end %>
   </div>
