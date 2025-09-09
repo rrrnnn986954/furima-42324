@@ -21,16 +21,14 @@
 
     <%# ボタン表示 %>
     <% if user_signed_in? %>
-      <% if current_user == @item.user %>
-        <%# 自分の出品物 → 編集・削除ボタン %>
+      <% if current_user == @item.user && !@item.sold_out? %>
+        <%# 自分の出品物 & 売却前 → 編集・削除ボタン %>
         <%= link_to "商品の編集", edit_item_path(@item), class: "item-red-btn" %>
         <p class="or-text">or</p>
         <%= link_to "削除", item_path(@item), data: { turbo_method: :delete }, class:"item-destroy" %>
-      <% else %>
-        <% unless @item.sold_out? %>
-          <%# 他人の出品物 & まだ売れてない → 購入ボタン表示 %>
-          <%= link_to "購入画面に進む", item_orders_path(item_id: @item.id), data: { turbo: false }, class:"item-red-btn" %>
-        <% end %>
+      <% elsif current_user != @item.user && !@item.sold_out? %>
+        <%# 他人の出品物 & 売却前 → 購入ボタン表示 %>
+        <%= link_to "購入画面に進む", item_orders_path(item_id: @item.id), data: { turbo: false }, class:"item-red-btn" %>
       <% end %>
     <% end %>
 
