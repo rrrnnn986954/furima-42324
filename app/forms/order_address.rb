@@ -16,8 +16,8 @@ class OrderAddress
     validates :item_id
   end
 
-  validates :user_id
-  validates :item_id
+  # validates :user_id
+  # validates :item_id
 
   def save
     return false unless valid?

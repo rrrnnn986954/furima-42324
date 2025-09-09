@@ -9,6 +9,7 @@ RSpec.describe OrderAddress, type: :model do
   end
 
   describe '購入情報の保存' do
+    # 正常系テスト
     context '購入情報が保存できる場合' do
       it 'すべての値が正しく入力されていれば購入できる' do
         expect(@order_address).to be_valid
@@ -19,7 +20,7 @@ RSpec.describe OrderAddress, type: :model do
         expect(@order_address).to be_valid
       end
     end
-
+    # 異常系テスト
     context '購入情報が保存できない場合' do
       it '郵便番号が空だと購入できない' do
         @order_address.postal_code = ''
