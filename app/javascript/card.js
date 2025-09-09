@@ -1,6 +1,9 @@
-document.addEventListener("DOMContentLoaded", function() {
+const pay = () => {
   // 公開鍵がなければ処理しない
   if (!gon.public_key) return;
+
+  const form = document.getElementById('charge-form');
+  if (!form) return;
 
   const payjp = Payjp(gon.public_key);
   const elements = payjp.elements();
@@ -14,14 +17,13 @@ document.addEventListener("DOMContentLoaded", function() {
   expiryElement.mount('#expiry-form');
   cvcElement.mount('#cvc-form');
 
-  const form = document.getElementById('charge-form');
-  if (!form) return;
-
+  // submit イベント
   form.addEventListener("submit", function(e) {
     e.preventDefault();
 
-    // すでに hidden token が存在する場合は再度生成せず submit
     const existingTokenInput = document.querySelector('input[name="order_address[token]"]');
+
+    // すでに token がある場合は再生成せず submit
     if (existingTokenInput && existingTokenInput.value !== "") {
       form.submit();
       return;
@@ -54,5 +56,10 @@ document.addEventListener("DOMContentLoaded", function() {
       cvcElement.clear();
     });
   });
-});
+};
+
+// Turbo 対応：初回読み込み + render 後も動作
+window.addEventListener("turbo:load", pay);
+window.addEventListener("turbo:render", pay);
+
 

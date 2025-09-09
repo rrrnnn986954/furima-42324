@@ -14,8 +14,8 @@ class OrderAddress
     validates :token
   end
 
-  # validates :user_id, presence: true
-  # validates :item_id, presence: true
+  validates :user_id, presence: true
+  validates :item_id, presence: true
 
   # 保存メソッド
   def save
