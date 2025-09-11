@@ -40,7 +40,7 @@
       </p>
     </div>
 
-    <%= form_with model: @order_address, url: item_orders_path(@item), local: true, data: { turbo: false }, id: "charge-form" do |f| %>
+    <%= form_with model: @order_address, url: item_orders_path(@item), local: true, id: "charge-form" do |f| %>
       <!-- hidden token -->
       <%= f.hidden_field :token %>
 

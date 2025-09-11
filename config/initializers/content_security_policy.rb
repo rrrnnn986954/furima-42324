@@ -23,10 +23,3 @@
 #   # Report violations without enforcing the policy.
 #   # config.content_security_policy_report_only = true
 # end
-
-# Payjp用
-Rails.application.config.content_security_policy do |policy|
-  policy.script_src :self, :https, 'https://js.pay.jp'
-  policy.frame_src  :self, :https, 'https://js.pay.jp'
-end
-
