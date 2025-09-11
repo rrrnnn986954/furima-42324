@@ -1,9 +1,7 @@
 <%= include_gon %>
 
-<!-- Payjp公開鍵をページ上部で設定 -->
-<script>
-  gon.public_key = "<%= ENV['PAYJP_PUBLIC_KEY'] %>";
-</script>
+<%# Rails CSP nonce を取得 %>
+<% nonce = content_security_policy_nonce %>
 
 <%= render "shared/second-header" %>
 
@@ -32,19 +30,14 @@
 
     <!-- 支払額の表示 -->
     <div class='item-payment'>
-      <h1 class='item-payment-title'>
-        支払金額
-      </h1>
-      <p class='item-payment-price'>
-        ¥<%= @item.amount %>
-      </p>
+      <h1 class='item-payment-title'>支払金額</h1>
+      <p class='item-payment-price'>¥<%= @item.amount %></p>
     </div>
 
-    <%= form_with model: @order_address, url: item_orders_path(@item), local: true, data: { turbo: false }, id: "charge-form" do |f| %>
-      <!-- hidden token -->
+    <%= form_with model: @order_address, url: item_orders_path(@item), local: true, id: "charge-form" do |f| %>
       <%= f.hidden_field :token %>
 
-      <!-- カード情報入力 -->
+      <!-- クレジットカード情報入力 -->
       <div class='credit-card-form'>
         <h1 class='info-input-haedline'>クレジットカード情報入力</h1>
 
@@ -55,10 +48,10 @@
           </div>
           <div id="number-form" class="input-default"></div>
           <div class='available-card'>
-            <%= image_tag 'card-visa.gif', class: 'card-logo'%>
-            <%= image_tag 'card-mastercard.gif', class: 'card-logo'%>
-            <%= image_tag 'card-jcb.gif', class: 'card-logo'%>
-            <%= image_tag 'card-amex.gif', class: 'card-logo'%>
+            <%= image_tag 'card-visa.gif', class: 'card-logo' %>
+            <%= image_tag 'card-mastercard.gif', class: 'card-logo' %>
+            <%= image_tag 'card-jcb.gif', class: 'card-logo' %>
+            <%= image_tag 'card-amex.gif', class: 'card-logo' %>
           </div>
         </div>
 
@@ -138,7 +131,45 @@
         <%= f.submit "購入", class:"buy-red-btn", id:"button" %>
       </div>
     <% end %>
-  </div>
+</div>
 </div>
 
-<%= render "shared/second-footer"%>
+<%= render "shared/second-footer" %>
+
+<%# Payjp JS 読み込みとトークン生成スクリプト（nonce付与） %>
+<script nonce="<%= nonce %>" src="https://js.pay.jp/v2/"></script>
+<script nonce="<%= nonce %>">
+document.addEventListener("DOMContentLoaded", function() {
+  const form = document.getElementById("charge-form");
+  const numberForm = document.getElementById("number-form");
+  const expiryForm = document.getElementById("expiry-form");
+  const cvcForm = document.getElementById("cvc-form");
+
+  if (!form || !numberForm || !expiryForm || !cvcForm) return;
+
+  const payjp = Payjp(gon.public_key);
+
+  const elements = payjp.elements();
+  const numberElement = elements.create('cardNumber');
+  const expiryElement = elements.create('expiry');
+  const cvcElement = elements.create('cvc');
+
+  numberElement.mount('#number-form');
+  expiryElement.mount('#expiry-form');
+  cvcElement.mount('#cvc-form');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    payjp.createToken(numberElement).then(function(response) {
+      if (response.error) {
+        alert(response.error.message);
+      } else {
+        const tokenInput = document.querySelector('input[name="order_address[token]"]');
+        tokenInput.value = response.id;
+        form.submit();
+      }
+    });
+  });
+});
+</script>
+
