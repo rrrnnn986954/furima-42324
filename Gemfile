@@ -94,4 +94,3 @@ gem 'gon'
 gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'payjp'
-gem "bundler", "~> 2.5"
