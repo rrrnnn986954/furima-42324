@@ -94,3 +94,7 @@ gem 'gon'
 gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'payjp'
+
+group :production do
+  gem 'pg'
+end
