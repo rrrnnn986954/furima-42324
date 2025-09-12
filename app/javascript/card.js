@@ -1,8 +1,12 @@
 const pay = () => {
-  
-  const publicKey = gon.public_key
+  if (!gon.public_key) return;
+
+  const form = document.getElementById('charge-form');
+  if (!form) return;
+
   const payjp = Payjp(gon.public_key);
   const elements = payjp.elements();
+
   const numberElement = elements.create('cardNumber');
   const expiryElement = elements.create('cardExpiry');
   const cvcElement = elements.create('cardCvc');
