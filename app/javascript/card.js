@@ -1,4 +1,5 @@
 const pay = () => {
+  console.log("ok")
   if (!gon.public_key) return;
 
   const form = document.getElementById('charge-form');
@@ -27,7 +28,7 @@ const pay = () => {
 
     payjp.createToken(numberElement).then(function(response) {
       if (response.error) {
-        alert("カード情報に誤りがあります: " + response.error.message);
+        //alert("カード情報に誤りがあります: " + response.error.message);
       } else {
         const token = response.id;
 
@@ -40,12 +41,13 @@ const pay = () => {
         }
         tokenInput.value = token;
 
-        form.submit();
+        
       }
 
       numberElement.clear();
       expiryElement.clear();
       cvcElement.clear();
+      form.submit();
     });
   });
 };

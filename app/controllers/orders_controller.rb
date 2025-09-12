@@ -29,7 +29,7 @@ class OrdersController < ApplicationController
       render :index, status: :unprocessable_entity
     end
   rescue Payjp::CardError => e
-    flash[:alert] = "決済に失敗しました: #{e.message}"
+    # flash[:alert] = "決済に失敗しました: #{e.message}"
     gon.public_key = ENV['PAYJP_PUBLIC_KEY']
     render :index, status: :unprocessable_entity
   end
