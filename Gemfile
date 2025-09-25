@@ -74,9 +74,6 @@ group :development do
   gem 'rspec-rails', '~> 4.0.0'
 end
 
-group :production do
-  gem 'pg'
-end
 
 gem 'devise'
 
@@ -96,7 +93,6 @@ gem 'dotenv-rails', groups: [:development, :test]
 gem 'payjp'
 
 group :production do
-  gem 'pg'
   gem 'unicorn', '6.1.0'
 end
 gem "nokogiri", force_ruby_platform: true
